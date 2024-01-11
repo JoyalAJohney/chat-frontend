@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -14,8 +15,14 @@ function Login() {
             username,
             password
         });
-        console.log('Login successful', response.data);
+        if (response.data.error) {
+          console.log(response.data)
+          setErrorMessage(response.data.message || 'Signup failed, Please try again.');
+          return;
+        }
+
         localStorage.setItem('go-chat-token', response.data.token);
+        localStorage.setItem('go-chat-username', getUserNameFromToken(response.data.token));
 
         navigate('/join');
     } catch (error) {
@@ -23,14 +30,31 @@ function Login() {
     }
   };
 
+  const getUserNameFromToken = (token) => {
+    try {
+      const payloadEncoded = token.split('.')[1];
+      const payloadDecoded = atob(payloadEncoded);
+      const payload = JSON.parse(payloadDecoded);
+      return payload.username;
+    } catch (err) {
+      console.error("Failed to parse JWT:", err);
+      return null;
+    }
+  }
+
   return (
+    <div className="bg-container">
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
     <div className="form-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-        <button type="submit">Login</button>
+      <form onSubmit={handleSubmit} className='form'>
+        <h1>LogIn</h1>
+        <div className='form-input-box'>
+          <input className='form-input' type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+          <input className='form-input' type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+        </div>
+        <button type="submit" className='form-button'>Login</button>
       </form>
+    </div>
     </div>
   );
 }

@@ -10,6 +10,8 @@ function ChatRoom() {
   const roomName = location.state?.roomName;
   const ws = useContext(WebSocketContext);
 
+  const username = localStorage.getItem('go-chat-username');
+
   useEffect(() => {
     const currentWebSocket = ws.current;
     const roomName = location.state?.roomName;  
@@ -18,13 +20,27 @@ function ChatRoom() {
         return;
     }
 
-    currentWebSocket.onmessage = (message) => {
-      console.log('Message received from server:', message);
+    const handleMessage = (message) => {
       const data = JSON.parse(message.data);
       setMessages(prevMessages => [...prevMessages, data]);
     };
 
-    return () => {};
+    const handleClose = () => {
+      const errorMessage = 'WebSocket connection terminated. Please try joining again.'
+      navigate('/join', { state: { errorMessage } });
+    };
+
+    if (currentWebSocket) {
+      currentWebSocket.onmessage = handleMessage;
+      currentWebSocket.onclose = handleClose;
+    }
+
+    return () => {
+      if (currentWebSocket) {
+        currentWebSocket.onmessage = null;
+        currentWebSocket.onclose = null;
+      }
+    };
   }, [location.state, ws, navigate]);
 
   const sendMessage = () => {
@@ -38,26 +54,39 @@ function ChatRoom() {
     ws.current.send(JSON.stringify({ type: 'leave_room', room: roomName }));
     navigate('/join');
   };
+  
 
   return (
-    <div className="chat-room">
-      <div className="chat-room-header">
-        <h2>Chat Room: {roomName}</h2>
-        <button className="leave-room-button" onClick={leaveRoom}>Leave Room</button>
-      </div>
+    <div className="bg-container">
+      <div className="chat-room">
+        <div className="chat-room-header">
+          <h3>Chat Room: {roomName}</h3>
+          <button className="leave-room-button" onClick={leaveRoom}>Leave Room</button>
+        </div>
       <div className="message-box">
-        {messages.map((msg, index) => (
-          <div key={index} className="message">
-            <div className="message-header">
-              <span className="sender-name">{msg.senderName}</span>
-              <span className="server-name">server: {msg.server}</span>
+        {messages.map((msg, index) => {
+          const isJoiningMessage = msg.type === 'join_room';
+          const isOwnMessage = msg.senderName === username;
+          if (isJoiningMessage) {
+            if (isOwnMessage) return;
+            return (
+              <div key={index} className="join-message">
+                {msg.senderName} joined from server {msg.server} 🎉
+              </div>
+            );
+          }
+          const messageClass = isOwnMessage ? "message own-message" : "message";
+          return (
+            <div key={index} className={messageClass}>
+              <div className="message-header">
+                {isOwnMessage ? <span></span> : <span className="sender-name">{msg.senderName}</span>}
+              </div>
+              <div className="message-content">{msg.content}</div>
+              <div className="message-footer">
+                {new Date().toLocaleTimeString()} 
+              </div>
             </div>
-            <div className="message-content">{msg.content}</div>
-            <div className="message-footer">
-              {new Date().toLocaleTimeString()} 
-            </div>
-          </div>
-        ))}
+          )})}
       </div>
       <div className="chat-room-footer">
        <input 
@@ -65,8 +94,10 @@ function ChatRoom() {
           value={input} 
           onChange={(e) => setInput(e.target.value)} 
           className="message-input"
+          placeholder='Enter your message'
         />
         <button onClick={sendMessage}>Send</button>
+      </div>
       </div>
     </div>
   );

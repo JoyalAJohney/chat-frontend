@@ -1,12 +1,15 @@
 // src/components/JoinRoom.js
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { WebSocketContext } from '../WebsocketContext';
 
 function JoinRoom() {
   const [roomName, setRoomName] = useState('');
   const navigate = useNavigate();
   const ws = useContext(WebSocketContext);
+
+  const location = useLocation();
+  const errorMessage = location.state?.errorMessage || '';
 
 
   useEffect(() => {
@@ -60,16 +63,23 @@ function JoinRoom() {
   };
 
   return (
-    <div>
-    <form onSubmit={handleJoin}>
-      <input 
-        type="text" 
-        value={roomName} 
-        onChange={e => setRoomName(e.target.value)} 
-        placeholder="Enter Chat Room Name" 
-      />
-      <button>Join Room</button>
-      </form>
+    <div className="bg-container">
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        <div className="form-container">
+            <form onSubmit={handleJoin} className="join-room-form">
+              <h1>Join a Room</h1>
+              <div className='form-input-box'>
+                <input
+                type="text"
+                value={roomName}
+                onChange={e => setRoomName(e.target.value)}
+                placeholder="Enter Chat Room Name"
+                className="form-input"
+                />
+              </div>
+              <button className="form-button">Join Room</button>
+            </form>
+        </div>
     </div>
   );
 }

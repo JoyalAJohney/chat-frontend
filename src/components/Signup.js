@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -14,6 +15,12 @@ function Signup() {
         username,
         password
       });
+      console.log(response)
+      if (response.data.error) {
+        console.log(response.data)
+        setErrorMessage(response.data.message || 'Signup failed, Please try again.');
+        return;
+      }
       console.log('Signup successful', response.data);
       navigate('/login');
     } catch (error) {
@@ -22,13 +29,18 @@ function Signup() {
   };
 
   return (
+    <div className="bg-container">
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
     <div className="form-container">
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
-        <button type="submit">Signup</button>
+      <form onSubmit={handleSubmit} className='form'>
+        <h1>Signup</h1>
+        <div className='form-input-box'>
+          <input type="text" className='form-input' value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+          <input type="password" className='form-input' value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+        </div>
+        <button type="submit" className='form-button'>Signup</button>
       </form>
+    </div>
     </div>
   );
 }

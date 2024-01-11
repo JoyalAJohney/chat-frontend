@@ -1,10 +1,18 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
+  background-color: #121212; /* Dark background */
+  color: #E0E0E0; /* Light text */
+}
+
+a {
+  color: #BB86FC; /* Stylish purple links */
 }
 
 nav ul {
   list-style-type: none;
   padding: 0;
+  text-align: center;
+  background-color: #1F1B24;
 }
 
 nav ul li {
@@ -12,123 +20,366 @@ nav ul li {
   margin-right: 10px;
 }
 
+button {
+  background-color: #673AB7; /* Purple button */
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: medium;
+}
+
+button:hover {
+  background-color: #9A67EA; /* Darker purple on hover */
+}
+
 input[type="text"],
 input[type="password"] {
-  margin-bottom: 10px;
-  padding: 5px;
-  font-size: 16px;
-}
-
-button {
-  padding: 5px 10px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-form {
-  margin-bottom: 20px;
-}
-
-/* Chat Room Styles */
-
-.form-container {
-  max-width: 300px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.form-container h2 {
-  text-align: center;
-}
-
-.form-input {
-  width: 100%;
-  padding: 8px;
-  margin: 10px 0;
+  font-size: medium;
+  background-color: #1F1B24;
+  color: #E0E0E0;
+  border: 1px solid #BB86FC;
+  padding: 10px;
+  margin: 5px;
   border-radius: 4px;
-  border: 1px solid #ddd;
 }
 
-.submit-button {
+/* Login */
+.landing-container {
+  background-image: url('./assets/home1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-image {
+  max-width: 100%; 
+  height: auto;
+}
+
+.login-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  width: 50%;
+  height: 50%;
+  background: rgba(0,0,0,.75);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+}
+
+.login-panel {
+  color: #ffffff;
+  max-width: 70%;
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  margin-bottom: 10px;
+  background: #673AB7; /* Your primary color */
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
+  text-decoration: none;
 }
 
-.submit-button:hover {
-  background-color: #0056b3;
+.landing-button:hover {
+  background: #5e35b1;
 }
 
+
+/* Chat Romm Style */
+.bg-container {
+  background-image: url('./assets/home1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  padding: 50px 20px;
+  border-radius: 5px;
+  background: rgba(0,0,0,.75);
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-input { 
+  margin: 5px 0 !important;
+  padding: 10px !important;
+}
+
+.form-input-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-button {
+  margin-top: 1em !important;
+  width: 100% !important;
+}
+
+/* Chat Room */
 .chat-room {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
+  width: 50%;
+  height: 75%;
+  padding: 20px 20px;
+  padding-top: 30px;
+  border-radius: 5px;
+  background: rgba(0,0,0,.85);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .chat-room-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #333;
+  background-color: #5e35b1;
+  padding: 10px;
+  border-radius: 5px;
   margin-bottom: 20px;
 }
 
 .leave-room-button {
-  padding: 5px 10px;
-  margin-left: auto; /* Align to the right */
+  background: white;
+  color: #5e35b1;
+  font-weight: bold;
 }
 
 .message-box {
-  height: 400px;
+  height: 70%;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 1px solid #333;
   padding: 10px;
-  margin-bottom: 20px;
 }
 
 .chat-room-footer {
   display: flex;
+  align-items: center;
+  margin-top: 20px;
 }
 
+.own-message {
+  margin-left: auto; 
+  background: #673AB7;
+  color: white;
+  align-self: flex-end;
+  border-radius: 1em 0em 1em 1em;
+}
+
+.own-message .sender-name {
+  color: white; 
+  align-self: flex-end;
+}
+
+.own-message .server-name {
+  color: #E0E0E0; 
+  align-self: flex-end; 
+}
+
+.message:not(.own-message) {
+  border-radius: 0em 1em 1em 1em;
+  background: #333; /* Different background for incoming messages */
+}
+
+.join-message {
+  text-align: center;
+  color: white;
+  margin: 10px 0;
+  overflow: hidden; /* Ensure the pseudo-elements are contained within the join-message div */
+  white-space: nowrap; /* Prevent the text from wrapping */
+}
+
+.join-message::before,
+.join-message::after {
+  content: '';
+  display: inline-block;
+  width: 10%; /* Adjust this value to control the line length */
+  height: 1px; /* Line thickness */
+  background: white;
+  vertical-align: middle;
+  margin: 0 10px; /* Space between the text and the lines */
+}
+
+
 .message {
-  background: #f0f0f0;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  word-wrap: break-word;
+  padding: 0.8em;
+  color: #E0E0E0;
 }
 
 .message-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
+  font-size: 0.9em;
 }
 
 .sender-name {
   font-weight: bold;
+  color: #BB86FC;
 }
 
 .server-name {
-  font-style: italic;
-  font-size: 0.8em;
-}
-
-.message-content {
-  margin-bottom: 5px;
+  color: #BB86FC;
 }
 
 .message-footer {
-  text-align: right;
-  font-size: 0.8em;
-  color: #666;
+  margin-top: 8px;
+  align-self: flex-end;
+  font-size: 0.7em;
+  color: whitesmoke;
 }
 
 .message-input {
   flex-grow: 1;
+  background-color: #1F1B24;
+  color: #E0E0E0;
+  border: 1px solid #BB86FC;
   padding: 10px;
   margin-right: 10px;
+  border-radius: 4px;
+}
+
+/* ScrollBar */
+.message-box::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Light grey track */
+  border-radius: 10px; /* Optional: Adds rounded corners to the track */
+}
+
+/* Styles the scrollbar thumb (the draggable part) */
+.message-box::-webkit-scrollbar-thumb {
+  background-color: #888; /* Dark grey thumb */
+  border-radius: 10px; /* Rounded corners on the thumb */
+  border: 3px solid #f1f1f1; /* Optional: Adds a border around the thumb */
+}
+
+/* Styles the scrollbar thumb on hover */
+.message-box::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Even darker grey thumb on hover */
+}
+
+/* Sets the width of the scrollbar */
+.message-box::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* For other browsers like Firefox, use the scrollbar-color and scrollbar-width properties */
+.message-box {
+  scrollbar-color: #888 #f1f1f1; /* thumb and track color */
+  scrollbar-width: thin; /* 'auto', 'thin', or 'none' */
+}
+
+
+.error-message {
+  color: #ff6b6b; /* Red color for errors */
+  text-align: center;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.buttons-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.join-room-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  width: 50%;
+  padding: 50px 20px;
+  border-radius: 5px;
+  background: rgba(0,0,0,.75);
+}
+
+.join-room-form {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  justify-content: center;
+  align-items: center;
+}
+
+.join-input-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.join-room-input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: 1px solid #BB86FC;
+  background-color: #1F1B24;
+  color: #E0E0E0;
+  font-size: 16px;
+}
+
+.join-room-button {
+  background-color: #BB86FC;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.join-room-button:hover {
+  background-color: #9A67EA;
 }
