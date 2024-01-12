@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { WebSocketContext } from '../WebsocketContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+
 
 function ChatRoom() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [showPicker, setShowPicker] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
   const roomName = location.state?.roomName;
@@ -13,6 +18,7 @@ function ChatRoom() {
   const username = localStorage.getItem('go-chat-username');
 
   useEffect(() => {
+    document.addEventListener('mousedown', handleOutsideClick);
     const currentWebSocket = ws.current;
     const roomName = location.state?.roomName;  
     if (!roomName) {
@@ -36,12 +42,27 @@ function ChatRoom() {
     }
 
     return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
       if (currentWebSocket) {
         currentWebSocket.onmessage = null;
         currentWebSocket.onclose = null;
       }
     };
   }, [location.state, ws, navigate]);
+
+  const handleEmojiPickerToggle = () => {
+    setShowPicker(!showPicker);
+  };
+
+  const handleOutsideClick = (e) => {
+    if (!e.target.closest('.emoji-picker') && !e.target.closest('.toggle-emoji-picker')) {
+      setShowPicker(false);
+    }
+  };
+
+  const addEmoji = (emoji) => {
+    setInput(input + emoji.native);
+  };
 
   const sendMessage = () => {
     if (input.trim() !== '') {
@@ -63,33 +84,38 @@ function ChatRoom() {
           <h3>Chat Room: {roomName}</h3>
           <button className="leave-room-button" onClick={leaveRoom}>Leave Room</button>
         </div>
-      <div className="message-box">
-        {messages.map((msg, index) => {
-          const isJoiningMessage = msg.type === 'join_room';
-          const isOwnMessage = msg.senderName === username;
+        <div className="message-box">
+          {messages.map((msg, index) => {
+            const isJoiningMessage = msg.type === 'join_room';
+            const isOwnMessage = msg.senderName === username;
+
           if (isJoiningMessage) {
-            if (isOwnMessage) return;
+            const joiningMessage = isOwnMessage ? 
+            `You joined ${roomName} 🎉` : 
+            `${msg.senderName} joined from server {msg.server} 🎉`;
             return (
-              <div key={index} className="join-message">
-                {msg.senderName} joined from server {msg.server} 🎉
+              <div key={msg.id} className="join-message">
+                {joiningMessage}
               </div>
             );
           }
+
           const messageClass = isOwnMessage ? "message own-message" : "message";
           return (
-            <div key={index} className={messageClass}>
+            <div key={msg.id} className={messageClass}>
               <div className="message-header">
                 {isOwnMessage ? <span></span> : <span className="sender-name">{msg.senderName}</span>}
               </div>
               <div className="message-content">{msg.content}</div>
               <div className="message-footer">
-                {new Date().toLocaleTimeString()} 
+              {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
               </div>
             </div>
           )})}
       </div>
       <div className="chat-room-footer">
-       <input 
+        <button className="toggle-emoji-picker" onClick={handleEmojiPickerToggle}>😃</button>
+        <input 
           type="text" 
           value={input} 
           onChange={(e) => setInput(e.target.value)} 
@@ -97,6 +123,13 @@ function ChatRoom() {
           placeholder='Enter your message'
         />
         <button onClick={sendMessage}>Send</button>
+        {showPicker && (
+          <div className="emoji-picker">
+            <Picker data={data} onEmojiSelect={(emoji) => { 
+              addEmoji(emoji);
+            }} />
+          </div>
+        )}
       </div>
       </div>
     </div>

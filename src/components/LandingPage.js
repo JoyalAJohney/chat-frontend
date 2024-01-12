@@ -5,15 +5,15 @@ import '../App.css';
 function LandingPage() {
   return (
     <div className="landing-container">
-      <div className="login-section">
+      <div className="chat-window">
         <div className="login-panel">
           <h1>Real-Time Distributed Chat</h1>
-          <p>Connect and communicate in real time across the world</p>
+          <span>Connect Instantly! Where every conversations is a new adventure!</span>
           <br />
           <br />
-          <div className="auth-buttons">
+          <div className="form-button">
+            <Link to="/signup"><button className="landing-button">Create a new Account</button></Link>
             <Link to="/login"><button className="landing-button">Login</button></Link>
-            <Link to="/signup"><button className="landing-button">Signup</button></Link>
           </div>
         </div>
       </div>

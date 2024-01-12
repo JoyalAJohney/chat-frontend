@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;500&display=swap');
+
+
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #121212; /* Dark background */
   color: #E0E0E0; /* Light text */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
 }
 
 a {
@@ -21,30 +28,74 @@ nav ul li {
 }
 
 button {
-  background-color: #673AB7; /* Purple button */
+  background-color: #673AB7;
   color: white;
   border: none;
   padding: 12px 15px;
   margin: 5px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
   font-size: medium;
+  transition: all 0.3s;
+  font-family: 'Lato', sans-serif;
+  box-shadow: 6px 6px 4px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-  background-color: #9A67EA; /* Darker purple on hover */
+  background-color: #6e44b7;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+}
+
+.button:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, transparent, transparent 40%, rgba(255, 255, 255, 0.3) 40%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.button:hover::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
 }
 
 input[type="text"],
 input[type="password"] {
   font-size: medium;
-  background-color: #1F1B24;
   color: #E0E0E0;
-  border: 1px solid #BB86FC;
+  border: none;
+  border-bottom: 2px solid #BB86FC;
+  background: transparent;
   padding: 10px;
   margin: 5px;
   border-radius: 4px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  transform: translateY(-1px);
+  border-bottom: 2px solid #9A67EA;
+}
+
+/* Material Shadow */
+.button, .input[type="text"], .input[type="password"], .chat-window, .form-container, .chat-room {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25); 
+  transition: box-shadow 0.3s;
+}
+
+.button:hover, .input[type="text"]:focus, .input[type="password"]:focus {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4); 
+}
+
+.button, .input[type="text"], .input[type="password"] {
+  transition: all 0.3s ease-in-out;
 }
 
 /* Login */
@@ -71,14 +122,15 @@ input[type="password"] {
   height: auto;
 }
 
-.login-section {
+.chat-window {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   padding: 50px 20px;
   width: 50%;
-  height: 50%;
-  background: rgba(0,0,0,.75);
+  height: 60%;
+  background: rgba(0,0,0,.80);
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
   color: #ffffff;
 }
@@ -86,6 +138,9 @@ input[type="password"] {
 .login-panel {
   color: #ffffff;
   max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .auth-buttons {
@@ -140,7 +195,7 @@ input[type="password"] {
   flex-direction: column;
   width: 40%;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 
 .form-input { 
@@ -175,16 +230,21 @@ input[type="password"] {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #333;
-  background-color: #5e35b1;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
+  background: linear-gradient(to right, #673AB7, #5b24b9);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .leave-room-button {
   background: white;
   color: #5e35b1;
   font-weight: bold;
+}
+
+.leave-room-button:hover {
+  background: #f1f1f1;
 }
 
 .message-box {
@@ -198,6 +258,17 @@ input[type="password"] {
   display: flex;
   align-items: center;
   margin-top: 20px;
+  position: relative;
+}
+
+/* Emoji Picker */
+.emoji-picker {
+  position: absolute;
+  bottom: 100%; /* Adjust this based on the size of your input box */
+  left: 0;
+  z-index: 2; 
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .own-message {
@@ -206,6 +277,7 @@ input[type="password"] {
   color: white;
   align-self: flex-end;
   border-radius: 1em 0em 1em 1em;
+  animation: fadeInUp 0.1s ease;
 }
 
 .own-message .sender-name {
@@ -237,7 +309,7 @@ input[type="password"] {
   display: inline-block;
   width: 10%; /* Adjust this value to control the line length */
   height: 1px; /* Line thickness */
-  background: white;
+  background: whitesmoke;
   vertical-align: middle;
   margin: 0 10px; /* Space between the text and the lines */
 }
@@ -246,12 +318,14 @@ input[type="password"] {
 .message {
   display: flex;
   flex-direction: column;
-  max-width: 40%;
+  max-width: fit-content;
   margin-bottom: 20px;
   margin-top: 20px;
   word-wrap: break-word;
-  padding: 0.8em;
-  color: #E0E0E0;
+  padding: 0.6em 0.9em;
+  color: white;
+  animation: fadeInUp 0.1s ease forwards;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .message-header {
@@ -271,9 +345,9 @@ input[type="password"] {
 }
 
 .message-footer {
-  margin-top: 8px;
   align-self: flex-end;
-  font-size: 0.7em;
+  font-size: 9px;
+  margin-top: 1.3em;
   color: whitesmoke;
 }
 
@@ -283,6 +357,7 @@ input[type="password"] {
   color: #E0E0E0;
   border: 1px solid #BB86FC;
   padding: 10px;
+  margin-left: 10px;
   margin-right: 10px;
   border-radius: 4px;
 }
@@ -310,18 +385,16 @@ input[type="password"] {
   width: 10px; /* Width of the scrollbar */
 }
 
-/* For other browsers like Firefox, use the scrollbar-color and scrollbar-width properties */
-.message-box {
-  scrollbar-color: #888 #f1f1f1; /* thumb and track color */
-  scrollbar-width: thin; /* 'auto', 'thin', or 'none' */
+.headings {
+  font-size: 2em;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
 }
-
 
 .error-message {
   color: #ff6b6b; /* Red color for errors */
-  text-align: center;
-  padding: 10px;
   margin: 10px 0;
+  text-align: center;
 }
 
 .buttons-section {
@@ -382,4 +455,28 @@ input[type="password"] {
 
 .join-room-button:hover {
   background-color: #9A67EA;
+}
+
+
+/* Animation */
+
+/* Chat message */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  animation: rotate 2s linear infinite;
 }

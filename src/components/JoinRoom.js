@@ -64,10 +64,13 @@ function JoinRoom() {
 
   return (
     <div className="bg-container">
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <div className="form-container">
+        <div className="chat-window">
             <form onSubmit={handleJoin} className="join-room-form">
-              <h1>Join a Room</h1>
+              <div className='headings'>Join a Room</div>
+              <span>Where will your words take you today? 🤔</span>
+              {errorMessage && <span className="error-message">*{errorMessage}</span>}
+              <br />
+              <br />
               <div className='form-input-box'>
                 <input
                 type="text"

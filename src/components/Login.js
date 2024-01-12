@@ -44,12 +44,13 @@ function Login() {
 
   return (
     <div className="bg-container">
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-    <div className="form-container">
+    <div className="chat-window">
       <form onSubmit={handleSubmit} className='form'>
-        <h1>LogIn</h1>
+        <div className='headings'>Hurry up, your friends have missed you! 🏃‍♀️</div>
+        {errorMessage && <span className="error-message">*{errorMessage}</span>}
+        <br />
         <div className='form-input-box'>
-          <input className='form-input' type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+          <input className='form-input' type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Name - let's goo" />
           <input className='form-input' type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
         </div>
         <button type="submit" className='form-button'>Login</button>
