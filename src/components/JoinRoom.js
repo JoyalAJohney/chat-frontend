@@ -2,9 +2,11 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { WebSocketContext } from '../WebsocketContext';
+import HomeButton from './HomeButton';
 
 function JoinRoom() {
   const [roomName, setRoomName] = useState('');
+  const [roomJoiningErrorMessage, setRoomJoiningErrorMessage] = useState('');
   const navigate = useNavigate();
   const ws = useContext(WebSocketContext);
 
@@ -47,6 +49,10 @@ function JoinRoom() {
 
   const handleJoin = (e) => {
     e.preventDefault();
+    if (roomName === '') {
+      setRoomJoiningErrorMessage('Why the hurry? Enter a room name first!');
+      return;
+    }
     const currentWebSocket = ws.current;
     
     if (currentWebSocket && currentWebSocket.readyState === WebSocket.OPEN) {
@@ -62,13 +68,21 @@ function JoinRoom() {
     }
   };
 
+  let errorMessageToDisplay = null;
+  if (roomJoiningErrorMessage) {
+    errorMessageToDisplay =  <span className="error-message">*{roomJoiningErrorMessage}</span>
+  } else if (errorMessage) {
+    errorMessageToDisplay = <span className="error-message">*{errorMessage}</span>
+  }
+
   return (
     <div className="bg-container">
         <div className="chat-window">
+        <HomeButton />
             <form onSubmit={handleJoin} className="join-room-form">
               <div className='headings'>Join a Room</div>
               <span>Where will your words take you today? 🤔</span>
-              {errorMessage && <span className="error-message">*{errorMessage}</span>}
+              {errorMessageToDisplay}
               <br />
               <br />
               <div className='form-input-box'>
@@ -80,7 +94,7 @@ function JoinRoom() {
                 className="form-input"
                 />
               </div>
-              <button className="form-button">Join Room</button>
+              <button className="form-button">Join Room 🚀</button>
             </form>
         </div>
     </div>

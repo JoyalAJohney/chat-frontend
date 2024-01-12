@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import HomeButton from './HomeButton';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
@@ -30,18 +31,19 @@ function Signup() {
 
   return (
     <div className="bg-container">
-    <div className="chat-window">
-      <form onSubmit={handleSubmit} className='form'>
-        <div className='headings'>Let's Get Started!</div>
-        {errorMessage && <span className="error-message">*{errorMessage}</span>}
-        <br />
-        <div className='form-input-box'>
-          <input type="text" className='form-input' value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter your name" />
-          <input type="password" className='form-input' value={password} onChange={e => setPassword(e.target.value)} placeholder="Create a Strong Password" />
-        </div>
-        <button type="submit" className='form-button'>Signup</button>
-      </form>
-    </div>
+      <div className="chat-window">
+        <HomeButton />
+        <form onSubmit={handleSubmit} className='form'>
+          <div className='headings'>Let's Get Started!</div>
+          {errorMessage && <span className="error-message">*{errorMessage}</span>}
+          <br />
+          <div className='form-input-box'>
+            <input type="text" className='form-input' value={username} onChange={e => setUsername(e.target.value)} placeholder="Enter your name" />
+            <input type="password" className='form-input' value={password} onChange={e => setPassword(e.target.value)} placeholder="Create a Strong Password" />
+          </div>
+          <button type="submit" className='form-button'>Signup</button>
+        </form>
+      </div>
     </div>
   );
 }

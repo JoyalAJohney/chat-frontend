@@ -15,7 +15,7 @@ function ChatRoom() {
   const roomName = location.state?.roomName;
   const ws = useContext(WebSocketContext);
 
-  const username = localStorage.getItem('go-chat-username');
+  const userID = localStorage.getItem('go-chat-userId');
 
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
@@ -32,7 +32,7 @@ function ChatRoom() {
     };
 
     const handleClose = () => {
-      const errorMessage = 'WebSocket connection terminated. Please try joining again.'
+      const errorMessage = `We closed your connection, you've been idle for sometime.`
       navigate('/join', { state: { errorMessage } });
     };
 
@@ -81,18 +81,18 @@ function ChatRoom() {
     <div className="bg-container">
       <div className="chat-room">
         <div className="chat-room-header">
-          <h3>Chat Room: {roomName}</h3>
+          <h3>{roomName}</h3>
           <button className="leave-room-button" onClick={leaveRoom}>Leave Room</button>
         </div>
         <div className="message-box">
           {messages.map((msg, index) => {
             const isJoiningMessage = msg.type === 'join_room';
-            const isOwnMessage = msg.senderName === username;
+            const isOwnMessage = msg.sender === userID;
 
           if (isJoiningMessage) {
             const joiningMessage = isOwnMessage ? 
             `You joined ${roomName} 🎉` : 
-            `${msg.senderName} joined from server {msg.server} 🎉`;
+            `${msg.senderName} joined from server ${msg.server} 🎉`;
             return (
               <div key={msg.id} className="join-message">
                 {joiningMessage}
@@ -120,9 +120,9 @@ function ChatRoom() {
           value={input} 
           onChange={(e) => setInput(e.target.value)} 
           className="message-input"
-          placeholder='Enter your message'
+          placeholder="What's on your mind?"
         />
-        <button onClick={sendMessage}>Send</button>
+        <button className='send-message-button' onClick={sendMessage}>Send</button>
         {showPicker && (
           <div className="emoji-picker">
             <Picker data={data} onEmojiSelect={(emoji) => { 
