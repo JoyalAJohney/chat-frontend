@@ -23,7 +23,7 @@ function LandingPage() {
           <br />
           <div className="form-button">
             <Link to="/signup"><button className="landing-button">Create a new Account</button></Link>
-            <Link to="/login"><button className="landing-button">Already a User? Login here</button></Link>
+            <Link to="/login"><button className="landing-button">Already a user? Login here</button></Link>
           </div>
         </div>
       </div>
